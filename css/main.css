@@ -189,7 +189,7 @@ button:focus {
 	transition: transform 0.5s, opacity 0.5s;
 	-webkit-transition-timing-function: cubic-bezier(0.6,0,0.4,1);
 	transition-timing-function: cubic-bezier(0.6,0,0.4,1);
-	box-shadow: 0px 15px 25px -10px rgba(256, 256, 256, 0.33);
+	box-shadow: 0px 15px 25px -15px rgba(256, 256, 256, 0.33);
 }
 
 .view-init .stack-slider {
