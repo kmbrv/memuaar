@@ -1,4 +1,15 @@
 /* Helpers & resets */
+@font-face {
+	font-family: 'camera-icons';
+	src:url('../fonts/camera-icons/camera-icons.eot?7h6q4p');
+	src:url('../fonts/camera-icons/camera-icons.eot?#iefix7h6q4p') format('embedded-opentype'),
+		url('../fonts/camera-icons/camera-icons.woff?7h6q4p') format('woff'),
+		url('../fonts/camera-icons/camera-icons.ttf?7h6q4p') format('truetype'),
+		url('../fonts/camera-icons/camera-icons.svg?7h6q4p#camera-icons') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
 *,
 *:after,
 *:before {
@@ -173,7 +184,7 @@ button:focus {
 /* Stack slider */
 .stack-slider {
 	position: absolute;
-	height: calc(50vh - 56px);
+	height:  calc(50vh - 56px);
 	width: 100vw;
 	top: -10vh;
 	opacity: 0;
@@ -189,7 +200,6 @@ button:focus {
 	transition: transform 0.5s, opacity 0.5s;
 	-webkit-transition-timing-function: cubic-bezier(0.6,0,0.4,1);
 	transition-timing-function: cubic-bezier(0.6,0,0.4,1);
-	box-shadow: 0px 15px 25px -15px rgba(256, 256, 256, 0.33);
 }
 
 .view-init .stack-slider {
@@ -410,11 +420,13 @@ button:focus {
 .move-items .is-selected .item:first-of-type .item__content::after {
 	-webkit-transform: translate3d(0,0,0) scale3d(0.95,0.95,1);
 	transform: translate3d(0,0,0) scale3d(0.95,0.95,1);
+	height: 10vh;
 }
 
 .move-items .is-selected .item:first-of-type .item__content::before {
 	-webkit-transform: translate3d(0,0,0) scale3d(0.9,0.9,1);
 	transform: translate3d(0,0,0) scale3d(0.9,0.9,1);
+	height: 10vh;
 }
 
 .item:first-of-type {
