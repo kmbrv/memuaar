@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="ru" class="no-js">
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -168,7 +168,11 @@
 	</section>
 
 	<section class="page__screen" :class="p_screen.s_about_us">
+		<div style="position: relative; height: 100%">
 		<h1>О Нас</h1>
+		<h1>О Нас</h1>
+		<h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1><h1>О Нас</h1>
+		</div>
 	</section>
 
 	<section class="page__screen" :class="p_screen.s_services">
@@ -198,10 +202,9 @@
 	   	}
 	   },
 	   mounted: function () {
-
 				let posX = 0;
 				let posY = 0;
-				let error = 100;
+				let error = 70;
 
 				document.addEventListener('touchstart', event => {
 					if(!this.stack_open){
@@ -214,10 +217,10 @@
 					if(!this.stack_open){
 						const { clientX, clientY } = event.touches[0];
 						if (Math.abs(posY - clientY) > error && this.wheel_time) {
-							if (posY > clientY) {
+							if (posY > clientY && (window.innerHeight + window.pageYOffset) >= document.querySelector(".page__screen_active").offsetHeight) {
 								this.screen_down();
 							}
-							if (posY < clientY) {
+							if (posY < clientY && (window.innerHeight + window.pageYOffset) == window.innerHeight) {
 								this.screen_up();
 							}
 							posX = clientX;
@@ -238,15 +241,15 @@
 	   	},
 	   	wheel: function(ev){
 	   		if(!this.stack_open){
-		    	if (ev.deltaY < 0 && this.wheel_time) {
-		    		this.wheel_time = false;
-		      	this.screen_up();
-		      	setTimeout(() => {this.wheel_time = true;}, 1000);
-		      }else if(this.wheel_time){
-		      	this.wheel_time = false;
-		      	this.screen_down();
-		      	setTimeout(() => {this.wheel_time = true;}, 1000);
-		      }
+			    	if (ev.deltaY < 0 && this.wheel_time && (window.innerHeight + window.pageYOffset) == window.innerHeight) {
+			    		this.wheel_time = false;
+			      	this.screen_up();
+			      	setTimeout(() => {this.wheel_time = true;}, 1000);
+			      }else if(this.wheel_time && (window.innerHeight + window.pageYOffset) >= document.querySelector(".page__screen_active").offsetHeight){
+			      	this.wheel_time = false;
+			      	this.screen_down();
+			      	setTimeout(() => {this.wheel_time = true;}, 1000);
+			    } 
 		    } 
 	    },
 	    screen_up: function(){
@@ -272,6 +275,12 @@
 	    	}
 	    },
 	   },
+	});
+
+
+	window.addEventListener('resize', () => {
+	  let vh = window.innerHeight * 0.01;
+	  document.documentElement.style.setProperty('--vh', `${vh}px`);
 	});
 </script>
 
