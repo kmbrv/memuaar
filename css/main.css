@@ -33,8 +33,8 @@ body {
 	color: #fff;
 	font-size: 1em;
 	overflow: hidden;
+	overflow-y: auto;
 	position: relative;
-	overflow-y: scroll;
 	font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -74,17 +74,41 @@ button:focus {
 	text-align: center;
 }
 
+.page__screen {
+	position: absolute;
+	top: 100vh;
+	left: 0;
+	height: 100vh;
+	display: block;
+	width: 100%;
+	transition: .7s;
+	background-color: #000;
+	transform: scaleY(0);
+	opacity: 0;
+}
+
+.page__screen_active {
+	top: 0;
+	transform: scaleY(1);
+	opacity: 1;
+}
+
+.page__screen_head {
+	height: 100%;
+}
+
 .video_b {
 	height: 100vh;
 	position: absolute;
 	top: 0;
 	left: 0;
 	z-index: 0;
+	overflow: hidden;
 }
 
 .video_p {
 	width: 100%;
-	height: 100vh;
+	height: 100%;
 	object-fit: cover;
 }
 
@@ -184,9 +208,9 @@ button:focus {
 /* Stack slider */
 .stack-slider {
 	position: absolute;
-	height:  calc(50vh - 56px);
+	height:  50vh;
 	width: 100vw;
-	top: -10vh;
+	top: 0;
 	opacity: 0;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -194,8 +218,8 @@ button:focus {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	-webkit-transform: translate3d(0, 60vh, 0);
-	transform: translate3d(0, 60vh, 0);
+	-webkit-transform: translate3d(0, 50vh, 0);
+	transform: translate3d(0, 50vh, 0);
 	-webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
 	transition: transform 0.5s, opacity 0.5s;
 	-webkit-transition-timing-function: cubic-bezier(0.6,0,0.4,1);
@@ -670,6 +694,9 @@ button:focus {
 
 /* Mobile-first media queries */
 @media screen and (min-width: 65em) {
+	.hero > div {
+		background-size: 40%;
+	}
 	.item__details {
 		position: absolute;
 		top: 0;
@@ -682,6 +709,12 @@ button:focus {
 
 /* Mobile-specific media queries */
 @media screen and (max-width: 65em) {
+	.video_p {
+		display: none;
+	}
+	.hero > div {
+		background-size: 50%;
+	}
 	.stack {
 		width: 60%;
 	}
@@ -691,6 +724,12 @@ button:focus {
 }
 
 @media screen and (max-width: 45em) {
+	.video_p {
+		display: none;
+	}
+	.hero > div {
+		background-size: 60%;
+	}
 	.stack-slider {
 		height: 50vh;
 	}
