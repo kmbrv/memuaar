@@ -61,7 +61,7 @@
 						<div class="stacks-wrapper">
 
 							<div class="stack">
-								<h2 class="stack-title" @click="stack_open = !stack_open"><a href="#" data-text="Portraits Name 1"><span>Portraits Name 1</span></a></h2>
+								<h2 class="stack-title"><a href="#" data-text="Portraits Name 1"><span>Portraits Name 1</span></a></h2>
 								<div class="item">
 									<div class="item__content">
 										<img src="img/gl/gl1.jpg" alt="img01" />
@@ -110,7 +110,7 @@
 							</div>
 
 							<div class="stack">
-								<h2 class="stack-title" @click="stack_open = !stack_open"><a href="#" data-text="Portraits Name 2"><span>Portraits Name 2</span></a></h2>
+								<h2 class="stack-title"><a href="#" data-text="Portraits Name 2"><span>Portraits Name 2</span></a></h2>
 								<div class="item">
 									<div class="item__content">
 										<img src="img/gl/gl5.jpg" alt="img01" />
@@ -192,7 +192,6 @@
 	new Vue({
 	   el: '#app',
 	   data: {
-	   	stack_open: false,
 	   	wheel_time: true,
 	   	p_screen: {
 	   		s_head: "page__screen_active",
@@ -205,16 +204,17 @@
 				let posX = 0;
 				let posY = 0;
 				let error = 70;
+				let bodyEl = document.body;
 
 				document.addEventListener('touchstart', event => {
-					if(!this.stack_open){
+					if( !classie.has(bodyEl, 'view-full') ){
 						const { clientX, clientY } = event.touches[0];
 						posX = clientX;
 						posY = clientY;
 					}
 				});
 				document.addEventListener('touchmove', event => {
-					if(!this.stack_open){
+					if( !classie.has(bodyEl, 'view-full') ){
 						const { clientX, clientY } = event.touches[0];
 						if (Math.abs(posY - clientY) > error && this.wheel_time) {
 							if (posY > clientY && (window.innerHeight + window.pageYOffset) >= document.querySelector(".page__screen_active").offsetHeight) {
@@ -225,7 +225,7 @@
 							}
 							posX = clientX;
 							posY = clientY;
-							setTimeout(() => {this.wheel_time = true;}, 1000);
+							setTimeout(() => {this.wheel_time = true;}, 1200);
 						}
 					}
 				});
@@ -240,15 +240,16 @@
 	   		}
 	   	},
 	   	wheel: function(ev){
-	   		if(!this.stack_open){
+	   		let bodyEl = document.body;
+	   		if( !classie.has(bodyEl, 'view-full') ){
 			    	if (ev.deltaY < 0 && this.wheel_time && (window.innerHeight + window.pageYOffset) == window.innerHeight) {
 			    		this.wheel_time = false;
 			      	this.screen_up();
-			      	setTimeout(() => {this.wheel_time = true;}, 1000);
+			      	setTimeout(() => {this.wheel_time = true;}, 1200);
 			      }else if(this.wheel_time && (window.innerHeight + window.pageYOffset) >= document.querySelector(".page__screen_active").offsetHeight){
 			      	this.wheel_time = false;
 			      	this.screen_down();
-			      	setTimeout(() => {this.wheel_time = true;}, 1000);
+			      	setTimeout(() => {this.wheel_time = true;}, 1200);
 			    } 
 		    } 
 	    },
@@ -277,11 +278,6 @@
 	   },
 	});
 
-
-	window.addEventListener('resize', () => {
-	  let vh = window.innerHeight * 0.01;
-	  document.documentElement.style.setProperty('--vh', `${vh}px`);
-	});
 </script>
 
 <script src="js/main.js"></script>

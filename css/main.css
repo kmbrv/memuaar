@@ -77,10 +77,8 @@ button:focus {
 .page__screen {
 	position: absolute;
 	min-height: 100vh;
-	min-height: calc(var(--vh, 1vh) * 100);
 	/*height: 100%;*/
 	top: 100vh;
-	top: calc(var(--vh, 1vh) * 100);
 	left: 0;
 	display: block;
 	width: 100%;
@@ -106,12 +104,12 @@ button:focus {
 
 .video_b {
 	height: 100vh; /* Fallback for browsers that do not support Custom Properties */
-  height: calc(var(--vh, 1vh) * 100);
 	position: absolute;
 	top: 0;
 	left: 0;
 	z-index: 0;
 	overflow: hidden;
+	width: 100%;
 }
 
 .video_p {
@@ -137,7 +135,6 @@ button:focus {
 .container_h {
 	position: relative;
 	min-height: 100vh;
-	min-height: calc(var(--vh, 1vh) * 100);
 	height: 100%;
 	overflow: hidden;
 	display: -webkit-flex;
@@ -155,7 +152,6 @@ button:focus {
 	position: absolute;
 	width: 100%;
 	height: 100vh;
-	height: calc(var(--vh, 1vh) * 100);
 	top: 0;
 	left: 0;
 	overflow: hidden;
@@ -719,6 +715,10 @@ button:focus {
 
 /* Mobile-specific media queries */
 @media screen and (max-width: 65em) {
+	.video_b {
+		background-image: url(../img/bg_video.jpg);
+		background-size: cover;
+	}
 	.video_p {
 		display: none;
 	}
@@ -734,6 +734,10 @@ button:focus {
 }
 
 @media screen and (max-width: 45em) {
+	.video_b {
+		background-image: url(../img/bg_video.jpg);
+		background-size: cover;
+	}
 	.video_p {
 		display: none;
 	}
@@ -773,8 +777,8 @@ button:focus {
 
 @media screen and (max-height: 35em) {
 	.stack-slider {
-		height: 60vh;
-		-webkit-transform: translate3d(0, 40vh, 0);
-		transform: translate3d(0, 40vh, 0);
+		height: 50vh;
+		-webkit-transform: translate3d(0, 50vh, 0);
+		transform: translate3d(0, 50vh, 0);
 	}
 }
