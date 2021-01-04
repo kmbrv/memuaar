@@ -1,7 +1,0 @@
-$(window).scroll(function() 
-{
-     if  ($(window).scrollTop() == $(document).height() - $(window).height()) 
-     {
-          //ѕользователь долистал до низа страницы
-     }
-});
