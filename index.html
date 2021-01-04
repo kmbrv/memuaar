@@ -15,10 +15,10 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css" />
 	<script src="js/modernizr.custom.js"></script>
 </head>
-<body>
+<body :class="scroll">
 
 <div id="app" @wheel="wheel" class="h-100">
-	<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+	<nav class="navbar navbar-expand-lg navbar-dark fixed-top" :class="p_screen.s_contacts">
 	  <div class="container-fluid">
 	    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
@@ -26,16 +26,16 @@
 	    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
 	      <ul class="navbar-nav">
 	      	 <li class="nav-item">
-	          <a class="nav-link" href="#" @click="set_p_screen('s_head')">Главная</a>
+	          <a class="nav-link" href="#"  @click.prevent="set_p_screen('s_head')">Главная</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="#" @click="set_p_screen('s_about_us')">О нас</a>
+	          <a class="nav-link" href="#"  @click.prevent="set_p_screen('s_about_us')">О нас</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="#" @click="set_p_screen('s_services')">Услуги</a>
+	          <a class="nav-link" href="#"  @click.prevent="set_p_screen('s_services')">Услуги</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="#" @click="set_p_screen('s_contacts')">Контакты</a>
+	          <a class="nav-link" href="#"  @click.prevent="set_p_screen('s_contacts')">Контакты</a>
 	        </li>
 	      </ul>
 	    </div>
@@ -206,14 +206,48 @@
 		</div>
 	</section>
 
-	<section class="page__screen" :class="p_screen.s_services">
+	<section class="page__screen services" :class="p_screen.s_services">
 		<div class="container ptb100">
 			<h2 class="text-center">Мы предлагаем следующие услуги</h2>
+			<div class="row align-items-center services-list min-h60vh">
+				<div class="col-12 col-sm-12 col-md-6 col-lg-3 text-center mt-5">
+					<img src="img/icon/video.svg" width="30%" alt="">
+					<h5 class="mt-4">Продающие рекламные ролики</h5>
+				</div>
+				<div class="col-12 col-sm-12 col-md-6 col-lg-3 text-center mt-5">
+					<img src="img/icon/video-camera.svg" width="30%" alt="">
+					<h5 class="mt-4">Профессиональные видео</h5>
+				</div>
+				<div class="col-12 col-sm-12 col-md-6 col-lg-3 text-center mt-5">
+					<img src="img/icon/catalogue.svg" width="30%" alt="">
+					<h5 class="mt-4">Каталожная съёмка</h5>
+				</div>
+				<div class="col-12 col-sm-12 col-md-6 col-lg-3 text-center mt-5">
+					<img src="img/icon/photo_camera.svg" width="30%" alt="">
+					<h5 class="mt-4">Съемка свадеб (мероприятий)</h5>
+				</div>
+			</div>
 		</div>
 	</section>
 
 	<section class="page__screen" :class="p_screen.s_contacts">
-		<h2 class="text-center">Контакты</h2>
+		<section class="contacts">
+			<div class="container ptb100">
+				<h2 class="text-center">Контакты</h2>
+			</div>
+		</section>
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-auto">
+						<span>© 2021 memuaar.ru</span>
+					</div>
+					<div class="col">
+						сайт разработан
+					</div>
+				</div>
+			</div>
+		</footer>
 	</section>
 </div>
 
@@ -226,11 +260,13 @@
 	   el: '#app',
 	   data: {
 	   	wheel_time: true,
+	   	scroll_time: 1100,
+	   	bodyEl: document.body,
 	   	p_screen: {
-	   		s_head: "page__screen_active",
+	   		s_head: "",
 	   		s_about_us: "",
 	   		s_services: "",
-	   		s_contacts: "",
+	   		s_contacts: "page__screen_active",
 	   	}
 	   },
 	   mounted: function () {
@@ -258,7 +294,7 @@
 							}
 							posX = clientX;
 							posY = clientY;
-							setTimeout(() => {this.wheel_time = true;}, 1200);
+							this.scroll_time_out();
 						}
 					}
 				});
@@ -273,20 +309,19 @@
 	   		}
 	   	},
 	   	wheel: function(ev){
-	   		let bodyEl = document.body;
-	   		if( !classie.has(bodyEl, 'view-full') ){
+	   		if( !classie.has(this.bodyEl, 'view-full') ){
 			    	if (ev.deltaY < 0 && this.wheel_time && (window.innerHeight + window.pageYOffset) == window.innerHeight) {
-			    		this.wheel_time = false;
 			      	this.screen_up();
-			      	setTimeout(() => {this.wheel_time = true;}, 1200);
+			      	this.scroll_time_out();
 			      }else if(this.wheel_time && (window.innerHeight + window.pageYOffset) >= document.querySelector(".page__screen_active").offsetHeight){
-			      	this.wheel_time = false;
 			      	this.screen_down();
-			      	setTimeout(() => {this.wheel_time = true;}, 1200);
+			      	this.scroll_time_out();
 			    } 
 		    } 
 	    },
 	    screen_up: function(){
+	    	this.wheel_time = false;
+	    	classie.add(this.bodyEl, 'nonescroll');
 	    	var bufer = "";
 	    	for(var screen in this.p_screen){
 	    		if(this.p_screen[screen] == "page__screen_active" && bufer != ""){
@@ -297,6 +332,7 @@
 		   	}	    	
 	    },
 	    screen_down: function(){
+	    	this.wheel_time = false;
 	    	var bufer = "";
 	    	for(var screen in this.p_screen){
 	    		
@@ -308,6 +344,12 @@
 	    		bufer = screen;
 	    	}
 	    },
+	    scroll_time_out: function(){
+		    setTimeout(() => {
+		    	this.wheel_time = true;
+		    	classie.remove(this.bodyEl, 'nonescroll');
+		    }, this.scroll_time)
+	  	},
 	   },
 	});
 
