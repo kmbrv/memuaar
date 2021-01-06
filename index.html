@@ -15,7 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css" />
 	<script src="js/modernizr.custom.js"></script>
 </head>
-<body :class="scroll">
+<body>
 
 <div id="app" @wheel="wheel" class="h-100">
 	<nav class="navbar navbar-expand-lg fixed-top" :class="navbar_theme">
@@ -45,7 +45,7 @@
 	<section class="page__screen page__screen_head" :class="{page__screen_active:p_screen.s_head.screen}">
 				<!-- first screen -->
 				<div class="video_b">
-					<video loop="" muted="" autoplay="" loop="" poster="img/kadr.jpg" class="video_p">
+					<video loop="" muted="" autoplay="" loop="" class="video_p">
 				      <source src="img/GHETTINSHOT.webm" type="video/webm">
 				  </video>
 			  </div>
@@ -264,13 +264,13 @@
 					</div>
 					<div class="col col-12">
 						<a href="#" target="blank">
-							<span><i class="fab fa-vk"></i></span>
+							<i class="fab fa-vk"></i>
 						</a>
 						<a href="https://wa.me/88000000000" target="blank">
-							<span><i class="fab fa-whatsapp-square"></i></span>
+							<i class="fab fa-whatsapp"></i>
 						</a>
 						<a href="#" target="blank">
-								<span><i class="fab fa-telegram-plane"></i></span>
+								<i class="fab fa-telegram-plane"></i>
 							</a>
 					</div>
 				</div>
@@ -303,145 +303,6 @@
 <script src="js/flickity.pkgd.min.js"></script>
 <script src="js/smoothscroll.js"></script>
 <script src="js/vue.min.js"></script>
-<script>
-	new Vue({
-	   el: '#app',
-	   data: {
-	   	wheel_time: true,
-	   	scroll_time: 1100,
-	   	disabled: true,
-	   	bodyEl: document.body,
-	   	p_screen: {
-	   		s_head: {
-	   			name: "s_head",
-	   			screen: true,
-	   			s_navbar_theme: "navbar-dark navbar-bg-none",
-	   			s_dot_theme: "dotsbar-dark",
-	   		},
-	   		s_about_us: {
-	   			name: "s_about_us",
-	   			screen: false,
-	   			s_navbar_theme: "navbar-dark",
-	   			s_dot_theme: "dotsbar-dark",
-	   		},
-	   		s_services: {
-	   			name: "s_services",
-	   			screen: false,
-	   			s_navbar_theme: "navbar-dark navbar-bg-none",
-	   			s_dot_theme: "dotsbar-dark",
-	   		},
-	   		s_contacts: {
-	   			name: "s_contacts",
-	   			screen: false,
-	   			s_navbar_theme: "navbar-light",
-	   			s_dot_theme: "dotsbar-light",
-	   		},
-	   	}
-	   },
-	   computed: {
-	   	navbar_theme: function(){
-	   		for(var s_active in this.p_screen){
-	   			if( this.p_screen[s_active]['screen'])
-	   				return this.p_screen[s_active]['s_navbar_theme']
-	   		}
-	   		return
-	   	},
-	   	dotsbar_theme: function(){
-	   		for(var s_active in this.p_screen){
-	   			if(this.p_screen[s_active]['screen'])
-	   				return this.p_screen[s_active]['s_dot_theme']
-	   		}
-	   		return
-	   	}
-	   },
-	   mounted: function () {
-				let posX = 0;
-				let posY = 0;
-				let error = 70;
-				let bodyEl = document.body;
-
-				document.addEventListener('touchstart', event => {
-					if( !classie.has(bodyEl, 'view-full') ){
-						const { clientX, clientY } = event.touches[0];
-						posX = clientX;
-						posY = clientY;
-					}
-				});
-				document.addEventListener('touchmove', event => {
-					if( !classie.has(bodyEl, 'view-full') ){
-						const { clientX, clientY } = event.touches[0];
-						if (Math.abs(posY - clientY) > error && this.wheel_time) {
-							if (posY > clientY && (window.innerHeight + window.pageYOffset) >= document.querySelector(".page__screen_active").offsetHeight) {
-								this.wheel_time = false;
-								this.screen_down();
-							}
-							if (posY < clientY && (window.innerHeight + window.pageYOffset) == window.innerHeight) {
-								this.wheel_time = false;
-								this.screen_up();
-							}
-							posX = clientX;
-							posY = clientY;
-							this.scroll_time_out();
-						}
-					}
-				});
-		 },
-	   methods: {
-	   	set_p_screen: function(set_screen){
-	   		if(this.p_screen[set_screen] != true){
-		   		for(var screen in this.p_screen){
-		   			this.p_screen[screen]['screen'] = false;
-		   		}
-		   		this.p_screen[set_screen]['screen'] = true;
-	   		}
-	   	},
-	   	wheel: function(ev){
-	   		if( !classie.has(this.bodyEl, 'view-full') ){
-			    	if (ev.deltaY < 0 && this.wheel_time && (window.innerHeight + window.pageYOffset) == window.innerHeight) {
-			    		this.wheel_time = false;
-			      	this.screen_up();
-			      	this.scroll_time_out();
-			      }else if(this.wheel_time && (window.innerHeight + window.pageYOffset) >= document.querySelector(".page__screen_active").offsetHeight){
-			      	this.wheel_time = false;
-			      	this.screen_down();
-			      	this.scroll_time_out();
-			    } 
-		    } 
-	    },
-	    screen_up: function(){
-	    	classie.add(this.bodyEl, 'nonescroll');
-	    	var bufer = "";
-	    	for(var screen in this.p_screen){
-	    		if(this.p_screen[screen]['screen'] == true && bufer != ""){
-	    			this.p_screen[screen]['screen'] = false;
-	    			this.p_screen[bufer]['screen'] = true;
-	    			break;
-	    		}
-	    		bufer = screen;
-		   	}	    	
-	    },
-	    screen_down: function(){
-	    	var bufer = '';
-	    	for(var screen in this.p_screen){
-    			if(bufer != '' && this.p_screen[bufer]['screen'] == true) {
-	    			this.p_screen[bufer]['screen'] = false;
-	    			this.p_screen[screen]['screen'] = true;
-	    			break;
-	    		}
-	    		bufer = screen;
-	    	}
-	    },
-	    scroll_time_out: function(){
-		    setTimeout(() => {
-		    	this.wheel_time = true;
-		    	classie.remove(this.bodyEl, 'nonescroll');
-		    }, this.scroll_time)
-	  	},
-	   },
-	});
-
-</script>
-
 <script src="js/main.js"></script>
 
 
