@@ -245,10 +245,10 @@
 				    <textarea id="exampleInputPassword1" class="form-control" aria-label="With textarea" placeholder="Текст сообщения"></textarea>
 				  </div>
 				  <div class="mb-3 form-check">
-				    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+				    <input type="checkbox" class="form-check-input" id="exampleCheck1"  @click="disabled = !disabled">
 				    <label class="form-check-label" for="exampleCheck1">Согласие на обработку персональных данных</label>
 				  </div>
-				  <button type="submit" class="btn btn-dark">Отправить</button>
+				  <button type="submit" class="btn btn-dark" :disabled='disabled'>Отправить</button>
 				</form>
 
 				<div class="row align-items-center mt-3">
@@ -309,7 +309,7 @@
 	   data: {
 	   	wheel_time: true,
 	   	scroll_time: 1100,
-	   	//navbar_theme: "navbar-dark navbar-bg-none",
+	   	disabled: true,
 	   	bodyEl: document.body,
 	   	p_screen: {
 	   		s_head: {
