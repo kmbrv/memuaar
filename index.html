@@ -18,7 +18,7 @@
 <body :class="scroll">
 
 <div id="app" @wheel="wheel" class="h-100">
-	<nav class="navbar navbar-expand-lg navbar-dark fixed-top" :class="p_screen.s_contacts">
+	<nav class="navbar navbar-expand-lg fixed-top" :class="navbar_theme">
 	  <div class="container-fluid">
 	    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
@@ -42,7 +42,7 @@
 	  </div>
 	</nav>
 
-	<section class="page__screen page__screen_head" :class="p_screen.s_head">
+	<section class="page__screen page__screen_head" :class="{page__screen_active:p_screen.s_head.screen}">
 				<!-- first screen -->
 				<div class="video_b">
 					<video loop="" muted="" autoplay="" loop="" poster="img/kadr.jpg" class="video_p">
@@ -167,7 +167,7 @@
 				<!-- end first screen -->
 	</section>
 
-	<section class="page__screen" :class="p_screen.s_about_us">
+	<section class="page__screen" :class="{page__screen_active:p_screen.s_about_us.screen}">
 		<div class="container ptb100">
 			<h2 class="text-center">О нас</h2>
 			<div class="card_list__about_us">
@@ -206,7 +206,7 @@
 		</div>
 	</section>
 
-	<section class="page__screen services" :class="p_screen.s_services">
+	<section class="page__screen services" :class="{page__screen_active:p_screen.s_services.screen}">
 		<div class="container ptb100">
 			<h2 class="text-center">Мы предлагаем следующие услуги</h2>
 			<div class="row align-items-center services-list min-h60vh">
@@ -230,10 +230,50 @@
 		</div>
 	</section>
 
-	<section class="page__screen" :class="p_screen.s_contacts">
+	<section class="page__screen" :class="{page__screen_active:p_screen.s_contacts.screen}">
 		<section class="contacts">
 			<div class="container ptb100">
 				<h2 class="text-center">Контакты</h2>
+
+				<form class="feedback">
+				  <div class="mb-3">
+				    <label for="exampleInputphone" class="form-label">Номер телефона</label>
+				    <input type="tel" class="form-control" id="exampleInputphone" aria-describedby="emailHelp" placeholder="8(800)-000-00-00">
+				  </div>
+				  <div class="mb-3">
+				    <label for="exampleInputText" class="form-label">Сообщение</label>
+				    <textarea id="exampleInputPassword1" class="form-control" aria-label="With textarea" placeholder="Текст сообщения"></textarea>
+				  </div>
+				  <div class="mb-3 form-check">
+				    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+				    <label class="form-check-label" for="exampleCheck1">Согласие на обработку персональных данных</label>
+				  </div>
+				  <button type="submit" class="btn btn-dark">Отправить</button>
+				</form>
+
+				<div class="row align-items-center mt-3">
+					<div class="col col-12">
+						<a href="tel:8(800)-000-00-00">
+							<span>8(800)-000-00-00</span>
+						</a>
+					</div>
+					<div class="col col-12">
+						<a href="mailto:example@email.com">
+							<span>example@email.com</span>
+						</a>
+					</div>
+					<div class="col col-12">
+						<a href="#" target="blank">
+							<span><i class="fab fa-vk"></i></span>
+						</a>
+						<a href="https://wa.me/88000000000" target="blank">
+							<span><i class="fab fa-whatsapp-square"></i></span>
+						</a>
+						<a href="#" target="blank">
+								<span><i class="fab fa-telegram-plane"></i></span>
+							</a>
+					</div>
+				</div>
 			</div>
 		</section>
 		<footer>
@@ -242,13 +282,21 @@
 					<div class="col-auto">
 						<span>© 2021 memuaar.ru</span>
 					</div>
-					<div class="col">
-						сайт разработан
+					<div class="col-12 col-sm-12 col-md-6 col-lg-auto">
+						<a href="#">Политика Конфиденциальности</a>
+					</div>
+					<div class="col-12 col-sm-12 col-md-6 col-lg-auto">
+						<a href="">сайт разработан develp.ru</a>
 					</div>
 				</div>
 			</div>
 		</footer>
 	</section>
+	<div class="dotsbar" :class="dotsbar_theme">
+		<i class="fas fa-chevron-up" @click.prevent="screen_up"></i>
+		<span class="dot" v-for="item in p_screen" :class="{active:item.screen}" @click.prevent="set_p_screen(item.name)"></span>
+		<i class="fas fa-chevron-down" @click.prevent="screen_down"></i>
+	</div>
 </div>
 
 <script src="js/bootstrap.min.js"></script>
@@ -261,12 +309,49 @@
 	   data: {
 	   	wheel_time: true,
 	   	scroll_time: 1100,
+	   	//navbar_theme: "navbar-dark navbar-bg-none",
 	   	bodyEl: document.body,
 	   	p_screen: {
-	   		s_head: "",
-	   		s_about_us: "",
-	   		s_services: "",
-	   		s_contacts: "page__screen_active",
+	   		s_head: {
+	   			name: "s_head",
+	   			screen: false,
+	   			s_navbar_theme: "navbar-dark navbar-bg-none",
+	   			s_dot_theme: "dotsbar-dark",
+	   		},
+	   		s_about_us: {
+	   			name: "s_about_us",
+	   			screen: false,
+	   			s_navbar_theme: "navbar-dark",
+	   			s_dot_theme: "dotsbar-dark",
+	   		},
+	   		s_services: {
+	   			name: "s_services",
+	   			screen: false,
+	   			s_navbar_theme: "navbar-dark navbar-bg-none",
+	   			s_dot_theme: "dotsbar-dark",
+	   		},
+	   		s_contacts: {
+	   			name: "s_contacts",
+	   			screen: true,
+	   			s_navbar_theme: "navbar-light",
+	   			s_dot_theme: "dotsbar-light",
+	   		},
+	   	}
+	   },
+	   computed: {
+	   	navbar_theme: function(){
+	   		for(var s_active in this.p_screen){
+	   			if( this.p_screen[s_active]['screen'])
+	   				return this.p_screen[s_active]['s_navbar_theme']
+	   		}
+	   		return
+	   	},
+	   	dotsbar_theme: function(){
+	   		for(var s_active in this.p_screen){
+	   			if(this.p_screen[s_active]['screen'])
+	   				return this.p_screen[s_active]['s_dot_theme']
+	   		}
+	   		return
 	   	}
 	   },
 	   mounted: function () {
@@ -287,9 +372,11 @@
 						const { clientX, clientY } = event.touches[0];
 						if (Math.abs(posY - clientY) > error && this.wheel_time) {
 							if (posY > clientY && (window.innerHeight + window.pageYOffset) >= document.querySelector(".page__screen_active").offsetHeight) {
+								this.wheel_time = false;
 								this.screen_down();
 							}
 							if (posY < clientY && (window.innerHeight + window.pageYOffset) == window.innerHeight) {
+								this.wheel_time = false;
 								this.screen_up();
 							}
 							posX = clientX;
@@ -301,44 +388,44 @@
 		 },
 	   methods: {
 	   	set_p_screen: function(set_screen){
-	   		if(this.p_screen[set_screen] != "page__screen_active"){
+	   		if(this.p_screen[set_screen] != true){
 		   		for(var screen in this.p_screen){
-		   			this.p_screen[screen] = "";
+		   			this.p_screen[screen]['screen'] = false;
 		   		}
-		   		this.p_screen[set_screen] = "page__screen_active";
+		   		this.p_screen[set_screen]['screen'] = true;
 	   		}
 	   	},
 	   	wheel: function(ev){
 	   		if( !classie.has(this.bodyEl, 'view-full') ){
 			    	if (ev.deltaY < 0 && this.wheel_time && (window.innerHeight + window.pageYOffset) == window.innerHeight) {
+			    		this.wheel_time = false;
 			      	this.screen_up();
 			      	this.scroll_time_out();
 			      }else if(this.wheel_time && (window.innerHeight + window.pageYOffset) >= document.querySelector(".page__screen_active").offsetHeight){
+			      	this.wheel_time = false;
 			      	this.screen_down();
 			      	this.scroll_time_out();
 			    } 
 		    } 
 	    },
 	    screen_up: function(){
-	    	this.wheel_time = false;
 	    	classie.add(this.bodyEl, 'nonescroll');
 	    	var bufer = "";
 	    	for(var screen in this.p_screen){
-	    		if(this.p_screen[screen] == "page__screen_active" && bufer != ""){
-	    			this.p_screen[screen] = "";
-	    			this.p_screen[bufer] = "page__screen_active";
+	    		if(this.p_screen[screen]['screen'] == true && bufer != ""){
+	    			this.p_screen[screen]['screen'] = false;
+	    			this.p_screen[bufer]['screen'] = true;
+	    			break;
 	    		}
 	    		bufer = screen;
 		   	}	    	
 	    },
 	    screen_down: function(){
-	    	this.wheel_time = false;
-	    	var bufer = "";
+	    	var bufer = '';
 	    	for(var screen in this.p_screen){
-	    		
-	    		if(this.p_screen[bufer] == "page__screen_active") {
-	    			this.p_screen[bufer] = "";
-	    			this.p_screen[screen] = "page__screen_active";
+    			if(bufer != '' && this.p_screen[bufer]['screen'] == true) {
+	    			this.p_screen[bufer]['screen'] = false;
+	    			this.p_screen[screen]['screen'] = true;
 	    			break;
 	    		}
 	    		bufer = screen;
