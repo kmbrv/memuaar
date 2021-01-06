@@ -880,6 +880,10 @@ button:focus {
 	padding: 2rem;
 }
 
+.feedback .btn {
+	width: 100%;
+}
+
 .feedback .form-control:focus {
   border-color: #495057;
   box-shadow: initial;
