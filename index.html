@@ -34,7 +34,10 @@
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="#"  @click.prevent="set_p_screen('s_services')">Услуги</a>
-	        </li>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#"  @click.prevent="set_p_screen('s_shop')">Услуги</a>
+			  </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="#"  @click.prevent="set_p_screen('s_contacts')">Контакты</a>
 	        </li>
@@ -231,6 +234,30 @@
 		</div>
 	</section>
 
+	<section class="page__screen shop" :class="{page__screen_active:p_screen.s_shop.screen}">
+		<div class="container ptb100">
+			<h2 class="text-center">Мы предлагаем следующие услуги</h2>
+			<div class="row align-items-center services-list min-h60vh">
+				<div class="col-12 col-sm-12 col-md-6 col-lg-3 text-center mt-5">
+					<img src="img/icon/video.svg" width="30%" alt="">
+					<h5 class="mt-4">Продающие рекламные ролики</h5>
+				</div>
+				<div class="col-12 col-sm-12 col-md-6 col-lg-3 text-center mt-5">
+					<img src="img/icon/video-camera.svg" width="30%" alt="">
+					<h5 class="mt-4">Профессиональные видео</h5>
+				</div>
+				<div class="col-12 col-sm-12 col-md-6 col-lg-3 text-center mt-5">
+					<img src="img/icon/catalogue.svg" width="30%" alt="">
+					<h5 class="mt-4">Каталожная съёмка</h5>
+				</div>
+				<div class="col-12 col-sm-12 col-md-6 col-lg-3 text-center mt-5">
+					<img src="img/icon/photo_camera.svg" width="30%" alt="">
+					<h5 class="mt-4">Съемка свадеб (мероприятий)</h5>
+				</div>
+			</div>
+		</div>
+	</section>
+	
 	<section class="page__screen" :class="{page__screen_active:p_screen.s_contacts.screen}">
 		<section class="contacts">
 			<div class="container ptb100">
@@ -326,6 +353,12 @@
 	   			s_dot_theme: "dotsbar-dark",
 	   		},
 	   		s_services: {
+	   			name: "s_services",
+	   			screen: false,
+	   			s_navbar_theme: "navbar-dark navbar-bg-none",
+	   			s_dot_theme: "dotsbar-dark",
+			   },
+			   s_shop: {
 	   			name: "s_services",
 	   			screen: false,
 	   			s_navbar_theme: "navbar-dark navbar-bg-none",
