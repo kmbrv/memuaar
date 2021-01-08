@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="css/normalize.css" />
 	<link rel="stylesheet" type="text/css" href="css/flickity.css" />
 	<link rel="stylesheet" type="text/css" href="css/main.css" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<script src="js/modernizr.custom.js"></script>
 </head>
 <body :class="scroll">
@@ -36,7 +37,7 @@
 	          <a class="nav-link" href="#"  @click.prevent="set_p_screen('s_services')">Услуги</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#"  @click.prevent="set_p_screen('s_shop')">Услуги</a>
+				<a class="nav-link" href="#"  @click.prevent="set_p_screen('s_shop')">Магазин</a>
 			  </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="#"  @click.prevent="set_p_screen('s_contacts')">Контакты</a>
@@ -235,27 +236,9 @@
 	</section>
 
 	<section class="page__screen shop" :class="{page__screen_active:p_screen.s_shop.screen}">
-		<div class="container ptb100">
-			<h2 class="text-center">Мы предлагаем следующие услуги</h2>
-			<div class="row align-items-center services-list min-h60vh">
-				<div class="col-12 col-sm-12 col-md-6 col-lg-3 text-center mt-5">
-					<img src="img/icon/video.svg" width="30%" alt="">
-					<h5 class="mt-4">Продающие рекламные ролики</h5>
-				</div>
-				<div class="col-12 col-sm-12 col-md-6 col-lg-3 text-center mt-5">
-					<img src="img/icon/video-camera.svg" width="30%" alt="">
-					<h5 class="mt-4">Профессиональные видео</h5>
-				</div>
-				<div class="col-12 col-sm-12 col-md-6 col-lg-3 text-center mt-5">
-					<img src="img/icon/catalogue.svg" width="30%" alt="">
-					<h5 class="mt-4">Каталожная съёмка</h5>
-				</div>
-				<div class="col-12 col-sm-12 col-md-6 col-lg-3 text-center mt-5">
-					<img src="img/icon/photo_camera.svg" width="30%" alt="">
-					<h5 class="mt-4">Съемка свадеб (мероприятий)</h5>
-				</div>
-			</div>
-		</div>
+
+		
+
 	</section>
 	
 	<section class="page__screen" :class="{page__screen_active:p_screen.s_contacts.screen}">
