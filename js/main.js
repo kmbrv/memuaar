@@ -1,13 +1,171 @@
-/**
- * main.js
- * http://www.codrops.com
- *
- * Licensed under the MIT license.
- * http://www.opensource.org/licenses/mit-license.php
- * 
- * Copyright 2015, Codrops
- * http://www.codrops.com
- */
+	var state = false;
+
+	new Vue({
+	   el: '#app',
+	   data: {
+	   	wheel_time: true,
+	   	scroll_time: 1100,
+	   	disabled: true,
+	   	bodyEl: document.body,
+	   	t: null,
+	   	p_screen: {
+	   		s_head: {
+	   			name: "s_head",
+	   			screen: true,
+	   			s_navbar_theme: "navbar-dark navbar-bg-none",
+	   			s_dot_theme: "dotsbar-dark",
+	   		},
+	   		s_about_us: {
+	   			name: "s_about_us",
+	   			screen: false,
+	   			s_navbar_theme: "navbar-dark",
+	   			s_dot_theme: "dotsbar-dark",
+	   		},
+	   		s_services: {
+	   			name: "s_services",
+	   			screen: false,
+	   			s_navbar_theme: "navbar-dark navbar-bg-none",
+	   			s_dot_theme: "dotsbar-dark",
+	   		},
+	   		s_contacts: {
+	   			name: "s_contacts",
+	   			screen: false,
+	   			s_navbar_theme: "navbar-light",
+	   			s_dot_theme: "dotsbar-light",
+	   		},
+	   	}
+	   },
+	   computed: {
+	   	navbar_theme: function(){
+	   		for(var s_active in this.p_screen){
+	   			if( this.p_screen[s_active]['screen'])
+	   				return this.p_screen[s_active]['s_navbar_theme']
+	   		}
+	   		return
+	   	},
+	   	dotsbar_theme: function(){
+	   		for(var s_active in this.p_screen){
+	   			if(this.p_screen[s_active]['screen'])
+	   				return this.p_screen[s_active]['s_dot_theme']
+	   		}
+	   		return
+	   	}
+	   },
+	   mounted: function () {
+				let posX = 0;
+				let posY = 0;
+				let error = 70;
+				let bodyEl = document.body;
+
+				document.addEventListener('touchstart', event => {
+					if( !classie.has(bodyEl, 'view-full') ){
+						const { clientX, clientY } = event.touches[0];
+						posX = clientX;
+						posY = clientY;
+					}
+				});
+				document.addEventListener('touchmove', event => {
+					if( !classie.has(bodyEl, 'view-full') ){
+						const { clientX, clientY } = event.touches[0];
+						if (Math.abs(posY - clientY) > error && this.wheel_time) {
+							if (posY > clientY && (window.innerHeight + window.pageYOffset) >= document.querySelector(".page__screen_active").offsetHeight) {
+								this.wheel_time = false;
+								this.screen_down();
+							}
+							if (posY < clientY && (window.innerHeight + window.pageYOffset) == window.innerHeight) {
+								this.wheel_time = false;
+								this.screen_up();
+							}
+							posX = clientX;
+							posY = clientY;
+							this.scroll_time_out();
+						}
+					}
+				});
+		 },
+	   methods: {
+	   	set_p_screen: function(set_screen){
+	   		if(this.p_screen[set_screen] != true){
+		   		for(var screen in this.p_screen){
+		   			this.p_screen[screen]['screen'] = false;
+		   		}
+		   		this.close_stack();
+		   		this.p_screen[set_screen]['screen'] = true;
+			   	this.scroll_up();
+	   		}
+	   	},
+	   	close_stack: function(){
+	   		if(classie.has(this.bodyEl, 'view-full') ){
+		   		state = true;
+		   		setTimeout(()=>{
+		   			state = false;
+		   		},300);
+	   		}
+	   	},
+	   	wheel: function(ev){
+	   		if( !classie.has(this.bodyEl, 'view-full') ){
+			    	if (ev.deltaY < 0 && this.wheel_time && (window.innerHeight + window.pageYOffset) == window.innerHeight) {
+			    		this.wheel_time = false;
+			      	this.screen_up();
+			      	this.scroll_time_out();
+			      }else if(this.wheel_time && (window.innerHeight + window.pageYOffset) >= document.querySelector(".page__screen_active").offsetHeight){
+			      	this.wheel_time = false;
+			      	this.screen_down();
+			      	this.scroll_time_out();
+			    } 
+		    } 
+	    },
+	    scroll_up: function(){
+	    	let top = Math.max(document.body.scrollTop,document.documentElement.scrollTop);
+				if(top > 0) {
+					window.scrollBy(0,-70);
+					this.t = setTimeout(this.scroll_up,20);
+				} else clearTimeout(this.t);
+	    },
+	    screen_up: function(){
+	    	classie.add(this.bodyEl, 'nonescroll');
+	    	var bufer = "";
+	    	for(var screen in this.p_screen){
+	    		if(this.p_screen[screen]['screen'] == true && bufer != ""){
+	    			this.p_screen[screen]['screen'] = false;
+	    			this.p_screen[bufer]['screen'] = true;
+	    			this.scroll_up();
+	    			break;
+	    		}
+	    		bufer = screen;
+		   	}	    	
+	    },
+	    screen_down: function(){
+	    	var bufer = '';
+	    	for(var screen in this.p_screen){
+    			if(bufer != '' && this.p_screen[bufer]['screen'] == true) {
+	    			this.p_screen[bufer]['screen'] = false;
+	    			this.p_screen[screen]['screen'] = true;
+	    			this.scroll_up();
+	    			break;
+	    		}
+	    		bufer = screen;
+	    	}
+	    },
+	    scroll_time_out: function(){
+		    setTimeout(() => {
+		    	this.wheel_time = true;
+		    	classie.remove(this.bodyEl, 'nonescroll');
+		    }, this.scroll_time)
+	  	},
+	   },
+	});
+
+
+/*
+--------------------------------------
+
+
+-------------------------------------------
+*/
+
+
+
 (function() {
 
 	var bodyEl = document.body,
@@ -38,6 +196,7 @@
 		flkty, canOpen = true, canMoveHeroImage = true,
 		isFirefox = typeof InstallTrigger !== 'undefined',
 		win = { width: window.innerWidth, height: window.innerHeight };
+
 
 	function scrollY() { return window.pageYOffset || docElem.scrollTop; }
 
@@ -75,6 +234,36 @@
 	function initEvents() {
 		stacks.forEach(function(stack) {
 			var titleEl = stack.querySelector('.stack-title');
+
+			bodyEl.addEventListener('transitionend', function(){
+				if(state){
+					if( classie.has(bodyEl, 'view-full') ) { // stack is opened
+						var closeStack = function() {
+							classie.remove(bodyEl, 'move-items');
+
+							onEndTransition(slider, function() {
+								classie.remove(bodyEl, 'view-full');
+								bodyEl.style.height = '';
+								flkty.bindDrag();
+								flkty.options.accessibility = true;
+								canMoveHeroImage = true;
+							});
+						};
+
+						// if the user scrolled down, let's first scroll all up before closing the stack.
+						var scrolled = scrollY();
+						if( scrolled > 0 ) {
+							smooth_scroll_to(isFirefox ? docElem : bodyEl || docElem, 0, 500).then(function() {
+								closeStack();
+							});
+						}
+						else {
+							closeStack();
+						}
+					}
+				}
+			});
+
 
 			// expand/close the stack
 			titleEl.addEventListener('click', function(ev) {
